@@ -1,0 +1,97 @@
+<html>
+<script>
+function changeImage(element) {
+     element.src = element.bln ? "greyMe.jpg" : "canArt.png";
+     element.width = element.bln ? 100: 220;
+     element.height = element.bln ? 100: 270;
+     element.alt = element.bln ? "I hate images of thyself." : "Cool can art, something I like." ;
+     element.bln = !element.bln;  // assigns opposite boolean value always
+ }
+function togParVis(){
+    if(document.getElementById("textIsHidden1").innerText == "see"){
+        //If the sentence says "see more info"
+
+        //First, change the sentence to read "hide more info"
+        document.getElementById("textIsHidden1").innerText = "hide";
+        //Next, change the display on the paragraph to block,
+        //which makes it visible
+        document.getElementById("toggleParagraph1").style.display = "block";
+        document.getElementById("toggleParagraph2").style.display = "none";
+    } else {
+        //If the sentence doesn't say "see more info", revert everything
+        document.getElementById("textIsHidden1").innerText = "see";
+        document.getElementById("toggleParagraph1").style.display = "none";
+        document.getElementById("toggleParagraph2").style.display = "block";
+    }
+}
+    function togTabVis(){
+    if(document.getElementById("textIsHidden2").innerText == "see"){
+         document.getElementById("textIsHidden2").innerText = "hide";
+         document.getElementById("toggleTable").style.display = "block";
+    } else {
+        document.getElementById("textIsHidden2").innerText = "see";
+        document.getElementById("toggleTable").style.display = "none";
+    }
+    }
+</script>
+
+<title>
+</title>
+
+<body style="background-color:#CDF1FD">
+<h1>Casey Cutler's page.</h1>
+
+<img id="mySelf" src="greyMe.jpg" alt="I hate this, images of thyself." width="100" height="100" onclick="changeImage(this)">
+
+<p>Other home page on <a href="http://www.csce.uark.edu/~cbcutler/" target="_blank">CSCE.</a></p>
+
+<p>Please push <button onclick="togParVis();">this</button>
+    to <span id="textIsHidden1">see</span> more info about me.</p>
+<p id="toggleParagraph1" style="display:none;">Born: Springdale, AR<br>I served seven and half years in the U.S. Army.</p>
+<p id="toggleParagraph2" style="display:block;"><br></p>
+
+<p>Please push <button onclick="togTabVis();">this</button> to <span id="textIsHidden2">see</span> my list of courses.</p>
+<table border="1" id="toggleTable" style="display:none;">		<tbody><tr>
+        		<td><b>Course title</b></td>
+				<td><b>Course name</b></td>
+        		<td><b>Course day</b></td>
+                <td><b>Course time</b></td>
+				<td><b>Other Information</b></td>
+		</tr>
+		<tr>
+        		<td>CSCE 3513</td>
+				<td>Software Engineering</td>
+            <td>Tue &amp; Thur</td>
+            <td>1300-1400</td><td>.</td>
+		</tr>
+		<tr>
+        		<td>CSCE 4643</td>
+				<td>Software Engineering</td>
+            <td>Mon &amp; Wed &amp; Fri</td>
+            <td>1100-1250</td><td>Dropped out near the end due to Finacial reasons.</td>
+		</tr>
+        <tr>
+        		<td>CSCE 3613</td>
+				<td>Operating Systems</td>
+        		<td>Mon &amp; Wed &amp; Fri</td><td>1300-1550</td><td>.</td>
+		</tr>
+		<tr>
+        		<td>CSCE 4753</td>
+				<td>Commputer Networks</td>
+        		<td>Tue &amp; Thur</td>
+                <td>1100-1250</td>
+				<td>.</td>
+		</tr>
+		<tr>
+			<td>CSCE 2214</td>
+			<td>Circuits & Electronics</td>
+			<td>Tue &amp; Thur</td>
+            <td>0920-1050</td>
+			<td>.</td>
+		</tr>
+                <tr><td>.</td><td>.</td><td>.</td><td>.</td><td>.</td></tr>
+		</tbody>
+</table>
+
+</body>
+</html>

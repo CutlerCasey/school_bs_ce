@@ -1,0 +1,37 @@
+SQL> select count(id), sum(price) from books where p_id is not null;
+
+ COUNT(ID) SUM(PRICE)                                                           
+---------- ----------                                                           
+         7     617.55                                                           
+
+SQL> select name, phone from patrons where id not in (select p_id from books where p_id is not null);
+
+NAME            PHONE                                                           
+--------------- -------------                                                   
+Sana            567-567-5678                                                    
+Bob             123-123-1234                                                    
+Gigi                                                                            
+Felix           987-987-9876                                                    
+
+SQL> select name from patrons where id in (select P_id from books where p_id is not null and price >= 100);
+
+NAME                                                                            
+---------------                                                                 
+Grady                                                                           
+Valery                                                                          
+Cynthia                                                                         
+
+SQL> select name from patrons where id in (select p_id from books where p_id is not null) and phone is null;
+
+NAME                                                                            
+---------------                                                                 
+Grady                                                                           
+
+SQL> select a.name from authors a where a.a_id in (select ba.a_id from books_authors ba where ba.b_id in (select id from books where price = (select max(price) from books)));
+
+NAME                                                                            
+---------------                                                                 
+Casey                                                                           
+Cutler                                                                          
+
+SQL> spool off

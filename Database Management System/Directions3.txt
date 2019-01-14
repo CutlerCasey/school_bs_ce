@@ -1,0 +1,48 @@
+Brajendra Nath Panda
+	
+Oct 23 (7 days ago)
+		
+to Brajendra
+CSCE 4523: Database Management Systems
+Fall 2015
+Assignment Three
+Due: Friday, October 30, 2015 at the beginning of class
+
+
+Each task carries 6 points.  You may refer to Oracle notes part three for help.  Use join instead of subquery whenever possible.  Display only the required columns in the result.
+
+Submit a hardcopy of the spool file containing the queries and their output in class.  Also, email only the (clean) queries to mswamina@email.uark.edu.  The queries must be in text in the body of the email, not in an attached file.  Your name must appear in the email.
+
+select * from books;
+Select * from authors;
+Select * from patrons;
+Select * from books_authors;
+
+Please check with me if you need further clarification on any of the following tasks.
+
+1.      For each author, show total number books there are in the library written by that author.  The output should show the authors' names and the number of books against each name.
+select a.name as authors_Name, (select count(ba.a_id) from books_authors ba where ba.a_id = a.a_id) as books from authors a;
+
+select authors.name, count(ba.a_id) as books from authors a, books_authors where authors.a_id = books_authors.a_id;
+
+2.      For each distinct book (distinguish by title, not by id), show the number of copies checked out.  If a book is not checked out, it should not appear in the result.
+select b.title, (select count(ba.a_id) from books_authors ba where ba.b_id = b.id and b.p_id is not null) as count from books b where b.p_id is not null;
+
+select count(title), title from books where p_id is not null;
+
+3.      For each distinct book (again distinguish by title), count the number of different formats it is available in the library.  Show the title and format count in your output. The result should appear in the descending order of the format count.
+select b.title, count('b.for') as format from books b group by title order by format desc;
+
+select title, for, count() from book where p_id is not null and count(greater to smaller);
+
+4.      For each patron who has currently checked out a book, print the patron's name, the title of the book checked out by him/her, and the name(s) of the author(s) of that book.  Your query must also work in the case when a patron has checked out multiple books and a book has multiple authors.
+select p.name, b.title, a.name from books b inner join patrons p on p.id = b.p_id inner join books_authors ba on b.id = ba.b_id inner join authors a on ba.a_id = a.a_id;
+
+select p.name, b.title, a.name from b books, p patrons, ba books_authors, a authors where ba.b_id = b.id and a.id = ba.a_id and b.p_id is not null;
+
+5.      For every patron, display his/her name and the title of the book he/she has checked out.  If a patron has checked out multiple books there should be multiple records in the output, one for each book.  The names of patrons who have not checked out any book should also appear in the result without any book title against those patrons' names.
+select p.name, b.title from patrons p left join books b on p.id = b.p_id;
+
+select p.name, b.title from patrons p, books b, ;
+
+=====================================================================================

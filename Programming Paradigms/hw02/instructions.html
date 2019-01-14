@@ -1,0 +1,123 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<style>
+		.toc {
+			margin-left: 30px;
+		}
+		.code {
+			margin-left: 30px;
+			color:#000000;
+			background-color:#ffffff;
+		}
+		.shell {
+			margin-left: 30px;
+			color:#000000;
+			background-color:#ffffff;
+		}
+	</style>
+</head>
+<body bgcolor="#d0d0b0"><br><br>
+<table align="center" cellpadding="50" border="1" bgcolor="#e0e0c0" width="720"><tbody><tr><td>
+
+<h1>Assignment 2</h1>
+
+<p>In this assignment, you will create a Java program containing three classes named AdminGrants, ProgramGrant, and Charity. These classes will be used to compute a charity's rating (for an imaginary Charity).</p>
+
+<ol>
+	<li>The ProgramGrant class represents the rating and subjective impact factor received for a program grant. A program grant is any expense that directly relates to carrying out the charity's mission.  The formula used to calculate the program grant rating is rating = (number of people impacted by expense / cost)*100.  It must:
+		<ul>
+			<li>have a private instance variable that keeps track of the rating</li>
+			<li>have a private instance variable that keeps track of am impact grade (as a string)</li>
+			<li>have a constructor which takes three arguments, a double, an int and a String, which are the amount of the grant, number of people impacted, and subjective impact factor respectively</li>
+			<li>have ``get'' functions to get the rating and subjective impact factor</li>
+			<li>ensure that the cost of the grant and number of people impacted by the grant is non-negative (if one is negative, set it equal to 0)</li>
+			<li>ensure that the impact grade is either A, B, C, D, or F. If a value other than those is used, a warning message should be printed to the console that an invalid impact factor was entered, and the value ``A'' should be used.</li>
+			<li>ensure that the rating is not greater than 100 (if it is greater than 100, set it equal to 100)</li>
+		</ul>
+	</li><br><br>
+	
+	<li>The AdminGrants class represents the combined amount of money spent on administrative salaries. It must:
+		<ul>
+			<li>have a private instance variable that keeps track of the total (sum) money spent on administrative costs</li>
+			<li>have a private instance variable that keeps track of the number of paid employees (it's possible this is 0)</li>
+			<li>have a function that allows you to add an administrative expense (this function needs to ensure the expense is non-negative) </li>
+			<li>have a function that allows you to set the number of paid employees (this function needs to ensure the number of paid employees is non-negative) </li>
+			<li>have a function that returns the average administrative cost per paid employee</li>
+			<li>have a function that returns the total amount of administrative grants</li>
+		</ul>
+	</li><br><br>
+	
+	<li>The Charity class represents a charity and is used to for entering grants and computing and printing the rating and grade of the charity. For this assignment, we suppose each charity has two program grants: short term grants and research grants.  It must:
+		<ul>
+			<li>have a private instance variable that keeps track of the Charity's name</li>
+			<li>have a private instance variable that keeps track of the number of paid employees</li>
+			<li>have s private instance variable of type ProgramGrant that keeps track of the charity's short term program grants</li>
+			<li>have s private instance variable of type ProgramGrant that keeps track of the charity's research program grants</li>
+			<li>have a private instance variable of type AdminGrants that keeps track of the charity's administrative grants</li>
+			<li>have a private instance variable that keeps track of the Charity's rating (which is a double)</li>
+			<li>have a private instance variable that keeps track of the Charity's grade (a string)</li>
+			<li>have a private instance variable that keeps track of the Charity's total expenses</li>
+			<li>have a constructor which takes the total expenses of the charity (a double), the number of salaried employees and the name of the charity as arguments</li>
+			<li>have the following member functions (implemented):<br>
+<pre>		public void addResearchGrant(double amount, int numPeopleImapcted, String impactGrade)
+		public void addShortGrant(double amount, int numPeopleImapcted, String impactGrade)
+		public void addAdminGrant(double amount)
+		public void printReport()
+</pre>
+			</li><li>printReport() should calculate and output the Charity's rating as follows:<br>
+<pre>
+		(short term grant rating * 40%) +
+		(research grant rating * 30%) +
+		(administrative grant rating * 30%)
+	Based on the charity's rating, a letter grade should be computed as:
+		F (&lt;60), D (&#8805;60, &lt;70), C (&#8805;70, &lt;80), B (&#8805;80, &lt;90), A (&#8805;90)
+
+</pre>
+The administrative grant rating is given by (1 - (administrative grants total/ total expenses))*100.
+	Follow the formula strictly (i.e. a score of 79.88% is a C and doesn't round to 80% and a B).
+		</li></ul>
+	</li><br><br>
+	
+	<li>To make it more interesting, let's say that we are harsh critics.  The final letter grade awarded to the charity cannot be any higher than the lowest impact grade awarded for any program grant.  Thus, if the letter grade calculated above is higher than the lowest subjective impact factor, the new final grade should be the lowest subjective impact factor grade.  In addition, if the average salary of the paid employees is higher than $100,000.00, the charity should be awarded a letter grade of F.  
+	</li><br><br>
+
+	<li>The Charity's name with their final letter grade and rating (between 0 and 100, rounded to exactly two
+		decimal places) must be output to the console. The output line must begin with "Final rating for" and then include the
+		charity's name, letter grade, and rating.
+	</li><br><br>
+
+	<li>Test your work. An example class named CharityTest.java is provided (on the course site along with assignment 2) to help you test your code.
+		Your classes must work with it, i.e. they must all compile correctly together and StudentTest.java should work correctly when executed. However, when grading we will use more and/or different test cases, so you should also test
+		various additional cases. Do not submit CharityTest.java. Here is the output that my implementation gives with this file:
+<pre class="shell">Final rating for Charity 1 A 97.00
+Final rating for Charity 2 C 91.29
+Final rating for Charity 3 C 82.86
+An impact grade other than A, B, C, D or F was entered.  Using the value A.
+Final rating for Charity 4 A 94.50
+</pre>
+		Note that if your values are within a few hundredths of a percent, that is sufficient.
+		</li><br><br>
+
+	<li>Submission: You must submit a zip archive containing exactly these files: Charity.java, ProgramGrant.java, AdminGrants.java, and a working build script named build.bat (or build.bash) which compiles your code (but doesn't execute it). Do not submit any files other than a single archive containing these four, and be sure it contains exactly these four.</li><br><br>
+
+<li>
+Here is the rubric I will use when running your code with a different version of a file similar to CharityTest.java, so make sure your code meets each of these requirements. 
+<ol>
+	<li>-90%:      user files do not compile on their own</li>
+	<li>-50%:      CharityTest.java does not compile with submitted files (but user submitted files compile on their own)</li>
+	<li>-20%:      wrong files submitted (but compilation works, which means that one of them must at least have been Student.java)</li>
+	<li>-35%:      Charity class does not use instances of ProgramGrant and AdminGrants classes</li>
+	<li>-5% each:  incorrect final grade</li>
+	<li>-5% each:  incorrect final score</li>
+	<li>-5% each:  does not replace out of bounds score</li>
+	<li>-5%:       does not warn when invalid impact grade is input</li>
+	<li>-5%:       output for each Charity does not begin with "Final rating for"</li>
+	<li>-5%:       output does not contain charity's name</li>
+	<li>-5%:       output does not display score as a value between 0-100 with two decimal places</li>
+	<li>-10%:      does not demote letter grade correctly</li>
+</ol>
+</li>
+
+</ol></td></tr></tbody></table>
+
+</body></html>

@@ -1,0 +1,112 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<style>
+		.toc {
+			margin-left: 30px;
+		}
+		.code {
+			margin-left: 30px;
+			color:#000000;
+			background-color:#ffffff;
+		}
+		.shell {
+			margin-left: 30px;
+			color:#000000;
+			background-color:#ffffff;
+		}
+	</style>
+</head>
+<body bgcolor="#d0d0b0"><br><br>
+<table align="center" cellpadding="50" border="1" bgcolor="#e0e0c0" width="720"><tbody><tr><td>
+
+<h1>Assignment 5</h1>
+
+
+<ol>
+	<li>Download the "Simulator.zip" starter kit. Extract, build and run it ("java Controller"). You should see a blank window.  When  you click your mouse on the window the first time, 25 sodium atoms and 25 chlorine atoms should appear.  Every subsequent click should cause them each to move in their own random directions, up to about 5 pixels. (As with the last assignment, if you get an exception saying it cannot find the file "Sodium.png" or another image file, make sure you know what directory you are executing within. Here is a command to print the current working directory:
+<pre class="code">System.out.println("cwd=" + System.getProperty("user.dir"));
+</pre>
+		You should make sure that the image files are in that directory.
+		<br><br>
+
+	This code partially extends the code from the last assignment, while some aspects are re-written differently.  For instance, you'll notice that the classes Sodium and Chlorine both extend Atom, but that essentially all of the logic is contained within the Atom class.  Also, the timer which automatically updated the scene is gone.</li><br><br>
+
+	<li>Modify the Atom class by implementing the "overlaps" function to return true if any portion of the Atom passed in as an argument overlaps the current Atom.  You will need to use the x and y coordinates as well as the size of the Atoms.</li><br><br>
+	
+	<li>Modify the "forward" function in Model so that after an Atom is moved, it is checked to see if it overlaps any other Atom.  If so, and if one of them is a Sodium and the other a Chlorine [HINT: use the "instanceof" operator], then the Chlorine and Sodium should "stick together" (that is, they should be aligned side by side touching each other) and begin travelling at a new velocity which is the average velocity of the Sodium and Chlorine before they ran into each other. 
+	
+	<li>Add a function "void bound()" and a variable that can be used to store whether or not the Atom is bound to another Atom (that is, it is "stuck to another atom") to Atom.  If the Atom is bound to another Atom, then no other Atom may bind to it. </li><br><br>
+	
+	<li>Add necessary variables and/or functionality so that Atom's "update" function, if the Atom has been bound, increments a counter of how many times update has been called after the Atom was hit. Also, add a function "boolean shouldSeperate()" to Atom which will return true if the that counter is >= 20.</li><br><br>
+	
+	<li>Modify the "forward" function in Model so that it checks to see if an Atom should be separated from another Atom (using the above function), and if so, separates the two Atoms so that their velocities are restored to their original velocities before they bound.  Note that you will need to use an iterator for the Atoms collection to safely remove elements while iterating over them (<a href="http://docs.oracle.com/javase/tutorial/collections/interfaces/collection.html">http://docs.oracle.com/javase/tutorial/collections/interfaces/collection.html</a>).  Otherwise, removing elements from a collection while you are iterating over it causes errors.  (Feel free to check it out!  It's great experience to intentionally cause bugs so you can observe the way that they are manifested and reported.)<br><br>
+	
+	Example use of an iterator:
+	<pre class="code">Iterator<Atom> iter = atoms.iterator();
+while (iter.hasNext()) {
+    Atom s = iter.next();
+    ...
+</pre>
+		
+	<li>At this point, as you click the mouse the images should move around, and whenever a Sodium and a Chlorine run into each other, they stick to each other and have a velocity which is the average velocity of the two Atoms before they stuck together.  20 clicks after becoming bound together, they should separate.  Get this much working before you proceed.</li><br><br>
+
+	<li>To allow for a bit more control of the action, you are going to modify your application to respond to specific key presses. First, update the Controller class so that it implements the necessary interface for listening to keyboard events (note that in Java, although a class can only extend one other class, it is allowed to implement multiple interfaces).  (Use google or your book to figure out which interface that is and find the documentation for that interface.)  Then, correctly register the key listener with the View class so it knows what will be processing those events.  Note that the mouse listener was added to the JPanel subclass MyPanel, but to correctly process keyboard events the key listener must be registered with the JFrame subclass View.</li><br><br>
+	
+	<li>Make your key listener call the "initialize" function in Model when the key "r" is typed.  (If you want your window to automatically refresh after "initialize" is called, you can call "view.repaint()").  Note that you will need to modify the initialize function in Model so that all existing Atoms are discarded before adding new Atoms.<br><br>
+	At this point, you should be able to move the Atoms by clicking the mouse, collisions between Sodiums and Chlorines should cause them to bind (provided they are not already bound) and then separate after 20 clicks, and the entire scene should be reset to a new random scene when "r" is pressed.  Get all of this working before proceeding.</li><br><br>
+	
+	<li>Time for multithreading!<br><br>For the final major addition, you are going to create a thread which will automatically update your scene (to save your fingers from all that clicking!).  Create a class named "AtomMover" which implements the Runnable interface. The constructor should take a Controller and a View as arguments, which it stores in instance variables.  Other than the constructor, the only function which must be implemented is "public void run()".  This function should consist of an infinite loop (i.e. one that never terminates) and which causes the thread to sleep for 25 milliseconds at the end of each iteration.  Before sleeping, it should perform the same logic as the "forward" function in Model.  At the end of each outer loop iteration (before sleeping again) it should call "repaint" on the View object (this is what causes the screen to be refreshed and "update" to be called).  Sample code is below, with the assignment of the "atom" variable and the contents of the "forward logic from Model" to be completed by you.  Make sure that you completely understand all lines of this sample code before using it!!!</li><br><br>
+	
+	<pre class="code">
+public void run() {
+    while (true) {
+        ArrayList<Atom> atoms = ?? // Figure out how to use the controller object to access the atom list
+		
+        ... "forward" logic from Model here ...
+		
+        try {
+            Thread.sleep(25);
+        } catch (InterruptedException e) {}
+        view.repaint();
+    }
+</pre>
+
+	<li>To create and use a thread which uses your AtomMover, in Controller create a new function "public void start()" which simply creates a new Thread, using a new AtomMover as the necessary argument to the constructor.  Then, call "start()" on that thread object.  Update your keyTyped function to call Controller's "start" function when "s" is typed.</li><br><br>
+	
+	<li>Now for thread-safety!<br><br>If you run your program now, you should see that after typing "s" you get many exceptions of the type "java.util.ConcurrentModificationException".  This is because your ArrayList of atoms is being simultaneously accessed and modified by multiple threads:  your thread which moves them around, and the thread which handles the events (such as redrawing).  In order to fix this, ensure that every function which iterates over the ArrayList of Atom synchronizes access to it by using a "synchronized" statement:
+	
+<pre class="code">
+synchronized(atoms)
+{
+    ... code to be synchronized here ...
+}
+</pre>
+
+This will ensure that if one thread is currently in a "synchronized" section which is accessing and/or modifying the ArrayList of Atoms, another thread will have to wait until the first thread is done before executing its "synchronized" section, providing thread-safety.  Once this is working, you're done!</li><br><br>
+
+	<li>Submit a zip file in the usual manner. The zip file should contain only your source files, image files, and a working build script which compiles your code and starts your application.
+		Do not submit any .class files, .jar files, or any other files. Test your zip file before you submit it by extracting into a separate folder and running your
+		build script. Remember that your classes should not be in a package other than the default package.</li><br><br>
+		
+	<li>
+	Here is the rubric I will use when running your program.  Make sure your code meets each of these requirements. <br><br>
+	<ol>
+		<li>-90% Code does not compile</li>
+		<li>-20% Incorrect files contained in the zip file</li>
+		<li>-10% Build script does not correctly build and run your program</li>
+		<li>-20% When a Sodium collides with a Chlorine, they don't "stick together"</li>
+		<li>-10% When a Sodium collides with a Chlorine, other Atoms can still bind to the bound Atoms</li>
+		<li>-10% Bound atoms do not separate after 20 "time steps"</li>
+		<li>-20% When "r" is typed, a new random scene does not appear, with the old images removed</li>
+		<li>-10% When "s" is typed, the scene doesn't begin moving on its own</li>
+		<li>-10% When "s" is typed, there are exceptions occurring (especially "java.util.ConcurrentModificationException")</li>
+		<li>-20% A Thread object is not being created in the Controller using the AtomMover class</li>
+	</ol>
+	</li>
+
+
+</ol>
+
+</td></tr></tbody></table>
+
+</body></html>

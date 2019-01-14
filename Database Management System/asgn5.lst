@@ -1,0 +1,120 @@
+SQL> @Cutler.sql
+
+Procedure created.
+
+
+Procedure created.
+
+What book# is beign checked out by Patron#?                                     
+
+PL/SQL procedure successfully completed.
+
+Enter value for book: 2
+Enter value for patron: 3
+Book already checked out.                                                       
+
+PL/SQL procedure successfully completed.
+
+SQL> @Cutler.sql
+
+Procedure created.
+
+
+Procedure created.
+
+What book# is beign checked out by Patron#?                                     
+
+PL/SQL procedure successfully completed.
+
+Enter value for book: 11
+Enter value for patron: 4
+Lack of book.                                                                   
+
+PL/SQL procedure successfully completed.
+
+SQL> @Cutler.sql
+
+Procedure created.
+
+
+Procedure created.
+
+What book# is beign checked out by Patron#?                                     
+
+PL/SQL procedure successfully completed.
+
+Enter value for book: 2
+Enter value for patron: 11
+Lack of patron.                                                                 
+
+PL/SQL procedure successfully completed.
+
+SQL> @Cutler.sql
+
+Procedure created.
+
+
+Procedure created.
+
+What book# is beign checked out by Patron#?                                     
+
+PL/SQL procedure successfully completed.
+
+Enter value for book: 11
+Enter value for patron: 11
+Lack of book.                                                                   
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from books;
+
+        ID TITLE                PRICE FOR       P_ID CKOUT_DAT                  
+---------- --------------- ---------- --- ---------- ---------                  
+         1 the one                150 cd           3 17-NOV-15                  
+         2 the tow                150 pb           8 15-NOV-15                  
+         3 the three                2 hc           3 03-DEC-15                  
+         4 a mockingbird         25.6 pb           4 16-NOV-14                  
+         5 to kill              50.34 cd          10 03-DEC-15                  
+         6 to live              69.96 hc           6 18-MAY-15                  
+         7 why O why           101.01 pb          10 07-NOV-15                  
+         8 asdf                136.92                                           
+         9 l;kj                 97.53 cd           2 05-DEC-14                  
+        10 whateva              23.45 pb           3 05-JUN-81                  
+
+10 rows selected.
+
+SQL> @Cutler.sql
+
+Procedure created.
+
+
+Procedure created.
+
+What book# is beign checked out by Patron#?                                     
+
+PL/SQL procedure successfully completed.
+
+Enter value for book: 8
+Enter value for patron: 4
+Checked out book.                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from books;
+
+        ID TITLE                PRICE FOR       P_ID CKOUT_DAT                  
+---------- --------------- ---------- --- ---------- ---------                  
+         1 the one                150 cd           3 17-NOV-15                  
+         2 the tow                150 pb           8 15-NOV-15                  
+         3 the three                2 hc           3 03-DEC-15                  
+         4 a mockingbird         25.6 pb           4 16-NOV-14                  
+         5 to kill              50.34 cd          10 03-DEC-15                  
+         6 to live              69.96 hc           6 18-MAY-15                  
+         7 why O why           101.01 pb          10 07-NOV-15                  
+         8 asdf                136.92              4 03-DEC-15                  
+         9 l;kj                 97.53 cd           2 05-DEC-14                  
+        10 whateva              23.45 pb           3 05-JUN-81                  
+
+10 rows selected.
+
+SQL> spool off

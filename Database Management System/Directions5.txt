@@ -1,0 +1,27 @@
+refCSCE 4523: Database Management Systems
+Fall 2015
+Assignment Five
+Due: Friday, December 4, 2015 at the beginning of class
+
+
+You may refer to PL/SQL part of oracle notes for help with this assignment.
+
+Write a PL/SQL procedure to update a record in the books table when a book is checked out by a patron.  The procedure must perform the following tasks.
+
+1.  The procedure accepts a book id and a patron id from user.
+
+2.  It then performs the following checks:
+(a) There exists a record for the corresponding book in the books table,
+(b) The book has not been already checked out, and
+(c) The patron id also exists in patrons table.
+
+ If any of these conditions fail, the procedure prints an appropriate message (there must be three different messages, one for each condition) and quits.
+
+3.      If all of the above conditions are satisfied, the procedure updates the corresponding record in the books table by adding the patron id and ckout_date, and prints an appropriate message.  In this case, the value of the ckout_date column for the record being updated should be the same as the system date.
+
+Save the procedure in a file named as ABC.sql, replacing 'ABC' with your last name.  Email the file AS AN ATTACHMENT to mswamina@email.uark.edu with the subject line "DBMS Class Assignment Five".
+
+Generate a spool file showing the procedure code and the output of each of the failed cases in task 2 and of a successful case (task 3). Turn in a hard-copy of the spool file in class.
+
+==========================================================================================
+

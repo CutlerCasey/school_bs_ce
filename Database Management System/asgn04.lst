@@ -1,0 +1,67 @@
+SQL> select patrons.name, to_char(books.ckout_date, 'DD Month YYYY') as CKOUT_DATE from books inner join patrons on patrons.id=books.p_id where ckout_date < trunc(sysdate - 10);
+
+NAME            CKOUT_DATE                                                      
+--------------- --------------------------------------------                    
+Dorthea         16 November  1914                                               
+Pamula          18 May       2015                                               
+Cynthia         07 November  2015                                               
+Marylee         05 December  2014                                               
+Grady           05 June      1981                                               
+
+SQL> select count(*) as weekend_ckout from books where to_char(ckout_date, 'DY') in ('SAT', 'SUN');
+
+WEEKEND_CKOUT                                                                   
+-------------                                                                   
+            2                                                                   
+
+SQL> select sum(price) from books where to_char(ckout_date, 'YYYY') in ('2014');
+
+SUM(PRICE)                                                                      
+----------                                                                      
+     97.53                                                                      
+
+SQL> select title, nvl(format, 'Format unknown') as format from books;
+
+TITLE           FORMAT                                                          
+--------------- --------------                                                  
+the one         cd                                                              
+the tow         pb                                                              
+the three       hc                                                              
+a mockingbird   pb                                                              
+to kill         cd                                                              
+to live         hc                                                              
+why O why       pb                                                              
+asdf            Format unknown                                                  
+l;kj            cd                                                              
+whateva         pb                                                              
+
+10 rows selected.
+
+SQL> select * from patron_fees;
+
+NAME            FEE                                                             
+--------------- ----------                                                      
+Marylee          $0,341.00                                                      
+Grady           ##########                                                      
+Dorthea         ##########                                                      
+Pamula           $0,177.00                                                      
+Cynthia          $0,004.00                                                      
+
+SQL> select * from books;
+
+        ID TITLE                PRICE FOR       P_ID CKOUT_DAT                  
+---------- --------------- ---------- --- ---------- ---------                  
+         1 the one                150 cd           3 17-NOV-15                  
+         2 the tow                150 pb           8 15-NOV-15                  
+         3 the three                2 hc                                        
+         4 a mockingbird         25.6 pb           4 16-NOV-14                  
+         5 to kill              50.34 cd                                        
+         6 to live              69.96 hc           6 18-MAY-15                  
+         7 why O why           101.01 pb          10 07-NOV-15                  
+         8 asdf                136.92                                           
+         9 l;kj                 97.53 cd           2 05-DEC-14                  
+        10 whateva              23.45 pb           3 05-JUN-81                  
+
+10 rows selected.
+
+SQL> spool off

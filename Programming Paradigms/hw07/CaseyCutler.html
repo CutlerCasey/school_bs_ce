@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Casey Cutler Assignment 7</title>
+</head>
+
+<script>
+	function calculateGrade(){
+		//alert("test");
+		var chaName = document.getElementById("name").value;
+		document.getElementById('chaName').innerHTML = chaName;
+		var Expenses = document.getElementById("totalExpenses").value;
+		var salEmps = document.getElementById("salariedEmployees").value;
+		var admGrants = document.getElementById("adminGrant").value;
+		var admGrants = admGrants.split(",");
+		var resGrant = document.getElementById("researchGrant").value;
+		var peoImpRG = document.getElementById("peopleImpRG").value;
+		var impFacRG = document.getElementById("impactFacRG").value;
+		var shoTerm = document.getElementById("shortTerm").value;
+		var peoImpST = document.getElementById("peopleImpST").value;
+		var impFacST = document.getElementById("impactFacST").value;
+				
+		var charity = new Charity(chaName);
+		if(true) { //to get print out correct for testing, in npp it can sort of vanish
+			console.log(chaName + " " + Expenses + " " + salEmps);
+			for(var i = 0; i < admGrants.length; i++) {
+				var grant = parseInt(admGrants[i]);
+				console.log(i+1 + "-" + grant);
+				charity.addAdminGrant(grant);
+			}
+			console.log(resGrant + " " + peoImpRG + " " + impFacRG);
+			console.log(shoTerm + " " + peoImpST + " " + impFacST);
+		}
+		
+		charity.setBasicInfo(Expenses, salEmps);
+		charity.addResearchGrant(resGrant, peoImpRG, impFacRG);
+		charity.addShortGrant(shoTerm, peoImpST, impFacST)
+		
+		charity.printGrade();
+		return false;
+   };
+</script>
+
+<script>
+	function Charity(Name){
+		var that = this;
+		//base data
+		var chaName = Name;
+		this.charityGrade;
+		this.employees = 0;
+		this.charityRating;
+		this.charityTotalExpenses = 0;
+		//for other functions
+		this.adminGrants = [];
+		this.researchNeeds = new programGrant();
+		this.shortTermNeeds = new programGrant();
+		var that = this;
+		
+		this.setBasicInfo = function(expenses, employee){
+			if(expenses > 0)
+				that.charityTotalExpenses = expenses;
+			if(employee > 0)
+				that.employees = employee;
+		}
+		
+		this.addAdminGrant = function(amount){
+			that.adminGrants.push(new creaAdminGrants(amount, that.employees));
+		}
+		
+		this.addResearchGrant = function(amount, numPeopleImapcted, impactGrade){
+			that.researchNeeds.setProgGrant(amount, numPeopleImapcted, impactGrade);
+		}
+		
+		this.addShortGrant = function(amount, numPeopleImapcted, impactGrade){
+			that.shortTermNeeds.setProgGrant(amount, numPeopleImapcted, impactGrade);
+		}
+		
+		var getChaGrade = function() {
+			return that.charityGrade;
+		}
+		
+		var getChaRat = function() {
+			return that.charityRating;
+		}
+		
+		this.printGrade = function(){
+			var tempG = 0;
+			var tempSTNr = that.shortTermNeeds.getRating();
+			var tempRNr = that.researchNeeds.getRating();
+			var tempCTEE = 0; var adminGrantRating = 100;
+			var tempSTNig = that.shortTermNeeds.getImpGradePG();
+			var tempRNig = that.researchNeeds.getImpGradePG();
+			console.log("tempG-" + tempG);
+			for(var i = 0; i < that.adminGrants.length; i++) {
+				tempG += that.adminGrants[i].averageAG();
+				console.log(tempG +" "+ that.adminGrants[i].averageAG());
+			}
+			console.log("tempG-" + tempG);
+			if(that.charityTotalExpenses != 0)
+				adminGrantRating = ((1.0 - (tempG / that.charityTotalExpenses)) * 100.0);		
+			if(that.adminGrantRating > 100)
+				adminGrantRating = 100;
+			that.charityRating = (tempSTNr * 0.4) + (tempRNr * 0.3) + (adminGrantRating * 0.3);
+			if(that.charityRating < 0)
+				that.charityRating = 0;
+			else if(that.charityRating > 100)
+				that.charityRating = 100;
+			console.log(that.charityRating+" "+tempSTNr+" "+tempRNr+" "+adminGrantRating +" "+tempG+" "+ that.charityTotalExpenses);
+			
+			if(that.employees != 0)
+				tempCTEE = tempG / that.employees;	
+			if((that.charityRating < 60) || (tempSTNig === "F") || (tempRNig === "F") || (tempCTEE >= 100000.00))
+				that.charityGrade = "F";
+			else if((that.charityRating < 70) || (tempSTNig === "D") || (tempRNig === "D"))
+				that.charityGrade = "D";
+			else if((that.charityRating < 70) || (tempSTNig === "C") || (tempRNig === "C"))
+				that.charityGrade = "C";
+			else if((that.charityRating < 70) || (tempSTNig === "B") || (tempRNig === "B"))
+				that.charityGrade = "B";
+			else if(that.charityRating >= 90)
+				that.charityGrade = "A";
+			else
+				console.log("This should not happen?");
+			
+			var finalGrade = getChaGrade(); console.log(finalGrade);
+			var finalRating = getChaRat(); console.log(finalRating); //to try to make sure I am getting the right number
+			var ratingTwoDec = finalRating.toFixed(2); //toFixed(num) is in standard Javascript, was wanting to learn
+			document.getElementById('grade').innerHTML = finalGrade;
+			document.getElementById('rating').innerHTML = ratingTwoDec;
+			document.getElementById("form").style.display = "none";
+			document.getElementById("doneCalc").style.display = "block";
+		}
+	}
+</script>
+
+<script>
+	function creaAdminGrants(amount, employees) {
+		this.adminCost = 0;
+		this.paidEmployee = 0;
+		var that = this;
+		if(amount > 0)
+			that.adminCost = amount;
+		if(employees > 0)
+			that.paidEmployee = employees;
+				
+		this.calcAvg = function() {
+			return that.paidEmployee > 0 ? that.adminCost / that.paidEmployee : 0;
+		}
+		
+		this.averageAG = function() {
+			return that.adminCost;
+		}
+	}
+</script>
+
+<script>
+	function programGrant() {
+		this.rating = 100;
+		this.impactGradePG = "A";
+		var that = this;
+		
+		this.setProgGrant = function(grant, people, impactFactor) {
+			var tempG = 0; var tempP = 0; var tempR = 100;
+			if(grant > 0)
+				tempG = grant;
+			if(people > 0)
+				tempP = people;
+			if(tempG > 0)
+				tempR = ((tempP / tempG) * 100);
+			if(tempR < 100)
+				that.rating = tempR;
+		
+			if((impactFactor == "A") | (impactFactor == "B") | (impactFactor == "C") | (impactFactor == "D") | (impactFactor == "F"))
+				that.impactGradePG = impactFactor;
+			else if((impactFactor == "a") | (impactFactor == "b") | (impactFactor == "c") | (impactFactor == "d") | (impactFactor == "f"))
+				that.impactGradePG = impactFactor.toUpperCase();
+			else {
+				alert("An impact grade other than A, B, C, D or F was entered.  Using the value A.");
+			}
+			console.log(that.impactGradePG + " " + impactFactor)
+		}
+				
+		this.getRating = function() {
+			return that.rating;
+		};
+
+		this.getImpGradePG = function(){
+			return that.impactGradePG;
+		};
+   };
+</script>
+
+<h1 align = "center">Casey Cutler's Assignment 7</h1>
+<body>
+<form onsubmit = "return calculateGrade()" id = "form" style="display:block;">
+
+The Charity's Name:&nbsp;&nbsp;&nbsp;
+<input type = "text" name = "The Charity's Name" id = "name" autofocus required maxlength="30" placeholder="Casey's College Fund" value="Casey's College Fund"><br><br>
+Total amount of Expenses:&nbsp;&nbsp;&nbsp;
+<input type = "number" name = "Total amount of Expenses" id = "totalExpenses" maxlength="12" placeholder="40000" value="100000"><br><br>
+Salaried Employess:&nbsp;&nbsp;&nbsp;
+<input type = "number" name = "Salaried Employess" id = "salariedEmployees" maxlength="10" placeholder="37" value="73"><br><br>
+
+Administrative Grant Cost(s):&nbsp;&nbsp;&nbsp;
+<input type = "text" name = "Administrative Grant Cost(s)" id = "adminGrant" maxlength="50" placeholder="10000,1151,1234" value="10000,1151,1234"><br><br>
+
+The Research Grant:&nbsp;&nbsp;&nbsp;
+<input type = "number" name = "The Research Grant" id = "researchGrant" maxlength="12" placeholder="5000000" value="5500000"><br><br>
+People Impacted:&nbsp;&nbsp;&nbsp;
+<input type = "number" name = "People Impacted RG" id = "peopleImpRG" pattern="[0-9]{100000000}" maxlength="9" placeholder="10000" value="10000"><br><br>
+Impact Factor:&nbsp;&nbsp;&nbsp;
+<input type = "text" name = "Impact Factor RG" id = "impactFacRG" pattern="[A-D,F,a-d,f]{1}" placeholder="A" value="A"><br><br>
+
+The Short Term:&nbsp;&nbsp;&nbsp;
+<input type = "number" name = "The Short Term" id = "shortTerm" pattern="[0-9]{100000000}" maxlength="12" placeholder="80000" value="80000"><br><br>
+People Impacted:&nbsp;&nbsp;&nbsp;
+<input type = "number" name = "People Impacted ST" id = "peopleImpST" pattern="[0-9]{100000000}" maxlength="9" placeholder="100000" value="100000"><br><br>
+Impact Factor:&nbsp;&nbsp;&nbsp;
+<input type = "text" name = "Impact Factor ST" id = "impactFacST" pattern="[A-D,F,a-d,f]{1}" placeholder="A" value="F"><br><br>
+
+<input type = "submit" value = "Submit">
+</form>
+<p style="display:none;" id="doneCalc">Final Rating for: <span id="chaName"></span> is <span id="rating"></span>% with a grade of "<span id="grade"></span>".</p>
+</html>
+
+<script>
+//testing from the old, but did new test since the multi adminGrants possiblity
+//first four taken from assinment02
+/*
+//good
+Charity charity1 = new Charity(100000, 1, "Charity 1"); //expenses, employ, name
+charity1.addAdminGrant(10000);
+charity1.addResearchGrant(10000, 10000, "A"); //amount, peopImp, impGrade
+charity1.addShortGrant(80000, 100000, "A"); //amount, peopImp, impGrade
+Fin Rat Name is 97.00 with A
+
+//good
+Charity charity2 = new Charity(1000000, 10, "Charity 2");
+charity2.addAdminGrant(100000);
+charity2.addResearchGrant(200000, 400000, "C");
+charity2.addShortGrant(700000, 600000, "B");
+Fin Rat Name is 91.29 with C
+
+//good
+Charity charity3 = new Charity(-40000, 10, "Charity 3");
+charity3.addAdminGrant(100000);
+charity3.addResearchGrant(200000, 400000, "C");
+charity3.addShortGrant(700000, 400000, "B");
+Fin Rat Name is 82.86 with C
+
+//good
+Charity charity4 = new Charity(10000000, 300, "Charity 4");
+charity4.addAdminGrant(1000000);
+charity4.addResearchGrant(5000000, 5500000, "E");
+charity4.addShortGrant(4000000, 3750000, "A");
+Not A, b, c, d, f so A
+Fin Rat Name is 94.50 with A
+
+//one left for later testing, but all for you
+//was not sure multi adminGrants were working, base case
+//case of "E" or other characters do not work due to patterns, but still work and give the error
+//good, 66.34 F
+Charity charity1 = new Charity(100000, 16, "Casey's College Fund"); //expenses, employ, name
+charity1.addAdminGrant(10000,1151,1234);
+charity1.addResearchGrant(5000000, 5500000, "A"); //amount, peopImp, impGrade
+charity1.addShortGrant(80000, 100000, "F"); //amount, peopImp, impGrade
+Fin Rat Name is 66.34 with F
+
+//should go lower the more
+//good, 51.34 F
+Charity charity1 = new Charity(100000, 16, "Charity 1"); //expenses, employ, name
+charity1.addAdminGrant(10000,1151,1234,50000);
+charity1.addResearchGrant(5000000, 5500000, "E"); //amount, peopImp, impGrade
+charity1.addShortGrant(80000, 100000, "C"); //amount, peopImp, impGrade
+Fin Rat Name is 51.34 with F
+
+//should go higher the less
+//good, 69.34 D
+Charity charity1 = new Charity(100000, 16, "Charity 1"); //expenses, employ, name
+charity1.addAdminGrant(1151,1234);
+charity1.addResearchGrant(5000000, 5500000, "E"); //amount, peopImp, impGrade
+charity1.addShortGrant(80000, 100000, "C"); //amount, peopImp, impGrade
+Fin Rat Name is 69.34 with D
+*/
+</script>

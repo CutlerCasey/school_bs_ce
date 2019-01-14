@@ -1,0 +1,81 @@
+SQL> select a.name as authors_Name, (select count(ba.a_id) from books_authors ba where ba.a_id = a.a_id) as books from authors a;
+
+AUTHORS_NAME         BOOKS                                                      
+--------------- ----------                                                      
+grrr                     1                                                      
+blarg                    1                                                      
+snarf                    1                                                      
+Casey                    2                                                      
+Cutler                   1                                                      
+Brooks                   1                                                      
+spam                     2                                                      
+ham                      0                                                      
+green eggs               0                                                      
+and                      1                                                      
+
+10 rows selected.
+
+SQL> select b.title, (select count(ba.a_id) from books_authors ba where ba.b_id = b.id and b.p_id is not null) as count from books b where b.p_id is not null;
+
+TITLE                COUNT                                                      
+--------------- ----------                                                      
+the one                  1                                                      
+the tow                  1                                                      
+a mockingbird            1                                                      
+to live                  1                                                      
+why O why                1                                                      
+l;kj                     1                                                      
+whateva                  1                                                      
+
+7 rows selected.
+
+SQL> select b.title, count('b.for') as format from books b group by title order by format desc;
+
+TITLE               FORMAT                                                      
+--------------- ----------                                                      
+the one                  1                                                      
+asdf                     1                                                      
+the tow                  1                                                      
+the three                1                                                      
+to live                  1                                                      
+l;kj                     1                                                      
+to kill                  1                                                      
+why O why                1                                                      
+whateva                  1                                                      
+a mockingbird            1                                                      
+
+10 rows selected.
+
+SQL> select p.name, b.title, a.name from books b inner join patrons p on p.id = b.p_id inner join books_authors ba on b.id = ba.b_id inner join authors a on ba.a_id = a.a_id;
+
+NAME            TITLE           NAME                                            
+--------------- --------------- ---------------                                 
+Cynthia         why O why       blarg                                           
+Pamula          to live         snarf                                           
+Grady           whateva         Casey                                           
+Grady           the one         Casey                                           
+Valery          the tow         Cutler                                          
+Dorthea         a mockingbird   spam                                            
+Marylee         l;kj            and                                             
+
+7 rows selected.
+
+SQL> select p.name, b.title from patrons p left join books b on p.id = b.p_id;
+
+NAME            TITLE                                                           
+--------------- ---------------                                                 
+Grady           the one                                                         
+Valery          the tow                                                         
+Dorthea         a mockingbird                                                   
+Pamula          to live                                                         
+Cynthia         why O why                                                       
+Marylee         l;kj                                                            
+Grady           whateva                                                         
+Sana                                                                            
+Bob                                                                             
+Gigi                                                                            
+Felix                                                                           
+
+11 rows selected.
+
+SQL> spool off

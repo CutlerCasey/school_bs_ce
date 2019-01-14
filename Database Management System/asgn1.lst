@@ -1,0 +1,160 @@
+SQL> Select * from cat;
+
+TABLE_NAME   TABLE_TYPE                                                         
+------------ -----------                                                        
+AUTHORS      TABLE                                                              
+BOOKS        TABLE                                                              
+BOOKS_AUTHOR TABLE                                                              
+S                                                                               
+                                                                                
+PATRONS      TABLE                                                              
+
+SQL> Desc books
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(38)
+ TITLE                                     NOT NULL CHAR(15)
+ PRICE                                              NUMBER(5,2)
+ FORMAT                                             CHAR(3)
+ P_ID                                               NUMBER(38)
+
+SQL> Desc patrons
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(38)
+ NAME                                      NOT NULL CHAR(15)
+ PHONE                                              CHAR(13)
+
+SQL> Desc authors
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ A_ID                                      NOT NULL NUMBER(38)
+ NAME                                      NOT NULL CHAR(15)
+
+SQL> Desc books_authors
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ B_ID                                      NOT NULL NUMBER(38)
+ A_ID                                      NOT NULL NUMBER(38)
+
+SQL> select a.owner, a.table_name, column_name primary_key,
+  2              a.constraint_name
+  3        from   user_cons_columns a, user_constraints b
+  4        where  a.constraint_name = b.constraint_name and
+  5               constraint_type = 'P';
+
+OWNER        TABLE_NAME   PRIMARY_KEY  CONSTRAINT_NAME                          
+------------ ------------ ------------ ------------------------------           
+DBCLASS37    PATRONS      ID           SYS_C007613                              
+DBCLASS37    AUTHORS      A_ID         SYS_C007615                              
+DBCLASS37    BOOKS        ID           SYS_C007625                              
+DBCLASS37    BOOKS_AUTHOR B_ID         SYS_C007632                              
+             S                                                                  
+                                                                                
+DBCLASS37    BOOKS_AUTHOR A_ID         SYS_C007632                              
+             S                                                                  
+                                                                                
+
+SQL> select a.owner, a.table_name, a.column_name foreign_key,
+  2               b.table_name Referring_table, b.column_name
+  3               Primary_key
+  4        from   user_cons_columns a, user_cons_columns b,
+  5               user_constraints c
+  6        where  a.constraint_name = c.constraint_name and
+  7               c.r_constraint_name = b.constraint_name;
+
+OWNER        TABLE_NAME   FOREIGN_KEY  REFERRING_TABLE PRIMARY_KEY              
+------------ ------------ ------------ --------------- ------------             
+DBCLASS37    BOOKS        P_ID         PATRONS         ID                       
+DBCLASS37    BOOKS_AUTHOR B_ID         BOOKS           ID                       
+             S                                                                  
+                                                                                
+DBCLASS37    BOOKS_AUTHOR A_ID         AUTHORS         A_ID                     
+             S                                                                  
+                                                                                
+
+SQL> select owner, table_name, search_condition from
+  2          user_constraints where search_condition is not null;
+
+OWNER        TABLE_NAME   SEARCH_CONDITION                                      
+------------ ------------ ---------------------------------------------         
+DBCLASS37    PATRONS      "NAME" IS NOT NULL                                    
+DBCLASS37    AUTHORS      "NAME" IS NOT NULL                                    
+DBCLASS37    BOOKS        "TITLE" IS NOT NULL                                   
+DBCLASS37    BOOKS        Price >= 1                                            
+DBCLASS37    BOOKS        Price <= 150                                          
+DBCLASS37    BOOKS        Format = 'hc' OR Format = 'pb' OR Format = 'c         
+                          d'                                                    
+                                                                                
+
+6 rows selected.
+
+SQL> select * from books;
+
+        ID TITLE                PRICE FOR       P_ID                            
+---------- --------------- ---------- --- ----------                            
+         1 the one               10.2 cd           3                            
+         2 the tow                150 pb           8                            
+         3 the three                2 hc           2                            
+         4 a mockingbird         25.6 pb           4                            
+         5 to kill              50.34 cd           7                            
+         6 to live              69.96 hc           6                            
+         7 why O why           101.01 pb          10                            
+         8 asdf                136.92 pb          10                            
+         9 l;kj                 97.53 cd           2                            
+        10 whateva              23.45 pb           3                            
+
+10 rows selected.
+
+SQL> Select * from authors;
+
+      A_ID NAME                                                                 
+---------- ---------------                                                      
+         4 grrr                                                                 
+         2 blarg                                                                
+         3 snarf                                                                
+         1 Casey                                                                
+         5 Cutler                                                               
+         6 Brooks                                                               
+         7 spam                                                                 
+         8 ham                                                                  
+         9 green eggs                                                           
+        10 and                                                                  
+
+10 rows selected.
+
+SQL> Select * from patrons;
+
+        ID NAME            PHONE                                                
+---------- --------------- -------------                                        
+         1 Bob             123-123-1234                                         
+         2 Marylee         234-234-2345                                         
+         3 Grady           345-345-3456                                         
+         4 Dorthea         456-456-4567                                         
+         5 Sana            567-567-5678                                         
+         6 Pamula          678-678-6879                                         
+         7 Gigi            789-789-7890                                         
+         8 Valery          098-098-0987                                         
+         9 Felix           987-987-9876                                         
+        10 Cynthia         876-867-2345                                         
+
+10 rows selected.
+
+SQL> Select * from books_authors;
+
+      B_ID       A_ID                                                           
+---------- ----------                                                           
+         2          5                                                           
+         3          7                                                           
+         4          7                                                           
+         5          4                                                           
+         5          6                                                           
+         6          3                                                           
+         7          2                                                           
+         8          1                                                           
+         9         10                                                           
+        10          8                                                           
+
+10 rows selected.
+
+SQL> spool off

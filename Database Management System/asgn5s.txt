@@ -1,0 +1,91 @@
+SQL> get Cutler.sql
+  1  create or replace procedure checkOutBook(refBid in char, refPid in char) is
+  2  interDate date;
+  3  error varchar(1);
+  4  interBid char(6);
+  5  interPid char(6);
+  6  begin
+  7  error := 1;
+  8  select books.id into interBid from books where id = refBid;
+  9  error := 2;
+ 10  select patrons.id into interPid from patrons where id = refPid;
+ 11  select books.ckout_date into interDate from books where id = refBid;
+ 12  if interDate is null then
+ 13  update books set ckout_date = sysdate where id = refBid;
+ 14  update books set p_id = refPid where id = refBid;
+ 15  DBMS_OUTPUT.PUT_LINE('Checked out book.');
+ 16  --print 'Book check out success';
+ 17  --commit;
+ 18  else DBMS_OUTPUT.PUT_LINE('Book already checked out.');
+ 19  end if;
+ 20  exception
+ 21  when no_data_found then
+ 22  if (error = 1) then DBMS_OUTPUT.PUT_LINE('Lack of book.');
+ 23  else DBMS_OUTPUT.PUT_LINE('Lack of patron.');
+ 24  end if;
+ 25  when others then DBMS_OUTPUT.PUT_LINE('Unknown Error.');
+ 26* end;
+ 27  /
+
+Procedure created.
+
+SQL> execute checkOutBook(2, 3);
+Book already checked out.                                                       
+
+PL/SQL procedure successfully completed.
+
+SQL> execute checkOutBook(11, 3);
+Lack of book.                                                                   
+
+PL/SQL procedure successfully completed.
+
+SQL> execute checkOutBook(2, 11);
+Lack of patron.                                                                 
+
+PL/SQL procedure successfully completed.
+
+SQL> execute checkOutBook(11, 11);
+Lack of book.                                                                   
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from books;
+
+        ID TITLE                PRICE FOR       P_ID CKOUT_DAT                  
+---------- --------------- ---------- --- ---------- ---------                  
+         1 the one                150 cd           3 17-NOV-15                  
+         2 the tow                150 pb           8 15-NOV-15                  
+         3 the three                2 hc                                        
+         4 a mockingbird         25.6 pb           4 16-NOV-14                  
+         5 to kill              50.34 cd                                        
+         6 to live              69.96 hc           6 18-MAY-15                  
+         7 why O why           101.01 pb          10 07-NOV-15                  
+         8 asdf                136.92                                           
+         9 l;kj                 97.53 cd           2 05-DEC-14                  
+        10 whateva              23.45 pb           3 05-JUN-81                  
+
+10 rows selected.
+
+SQL> execute checkOutBook(5, 10);
+Checked out book.                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from books;
+
+        ID TITLE                PRICE FOR       P_ID CKOUT_DAT                  
+---------- --------------- ---------- --- ---------- ---------                  
+         1 the one                150 cd           3 17-NOV-15                  
+         2 the tow                150 pb           8 15-NOV-15                  
+         3 the three                2 hc                                        
+         4 a mockingbird         25.6 pb           4 16-NOV-14                  
+         5 to kill              50.34 cd          10 03-DEC-15                  
+         6 to live              69.96 hc           6 18-MAY-15                  
+         7 why O why           101.01 pb          10 07-NOV-15                  
+         8 asdf                136.92                                           
+         9 l;kj                 97.53 cd           2 05-DEC-14                  
+        10 whateva              23.45 pb           3 05-JUN-81                  
+
+10 rows selected.
+
+SQL> spool off

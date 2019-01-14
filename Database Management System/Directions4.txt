@@ -1,0 +1,52 @@
+CSCE 4523: Database Management Systems
+Fall 2015
+Assignment Four
+Due: Wednesday, November 18, 2015 at the beginning of class
+
+
+Each task carries 6 points.  You may use Oracle notes part four to complete tasks 1-4 and part five for completing task 5.
+
+Submit a hardcopy of the spool file containing the queries and their output in class.  Also, email only the queries to mswamina@email.uark.edu.  Make sure to add your name to your email.
+
+First add an attribute named ckout_date (date type) to the Books table.  Then update each record that has a P_ID value present, to show a date when the corresponding patron had checked out that book.  Do NOT include these commands in the output files (query or spool file) that you submit for grading.
+
+Make sure your queries run correctly irrespective of when they are run.
+
+alter table books add ckout_date date;
+
+update books set CKOUT_DATe = date '&date' where id = &id;
+YYYY-MM-DD
+
+DESCRIBE books;
+
+1.  Find the names of patrons who have checked out books more than 10 days ago.  For each of those patrons, show his/her name and the month and date of check out with month spelled out completely.
+
+select patrons.name, to_char(books.ckout_date, 'DD Month YYYY') as CKOUT_DATE from books inner join patrons on patrons.id=books.p_id where ckout_date < trunc(sysdate - 10);
+
+2.  Show the total number of books checked out on weekends.
+
+select count(*) as weekend_ckout from books where to_char(ckout_date, 'DY') in ('SAT', 'SUN');
+
+3.  Show the total price of all books that were checked out in year 2014 but have not been returned yet.
+
+select sum(price) from books where to_char(ckout_date, 'YYYY') in ('2014');
+
+4.  For each book show its title and format. If the format is null for any book, print 'Format unknown' instead of displaying the null value.
+
+select title, nvl(format, 'Format unknown') as format from books;
+
+5.  Assume that books are due one week from the date they are checked out (for example, if a book was checked out on Nov. 1, 2015, it is due on Nov. 8, 2015).  After the due date, a late fee of $1 per day is charged.  Create a view to show the total late fee for each customer who is late in returning book(s).
+Create the view before your create the spool file.  The view creation command should not be in your output files. Instead, do the followings to show the view definition.
+Type the following 'SET' command only once after you log on to oracle.
+    SQL> Set Long n   (replace n with an integer that is more than the maximum number of characters in the view definition)
+
+    Then use the following 'SELECT' command to display the view definition.  The output of this command must appear in your output files.
+
+    SQL> Select text from user_views where view_name = '????';
+             Replace ???? with the view name in upper case.  Make sure to use quotes around the view name.
+
+========================================================================================
+VIEW:
+create view patron_fees as select patrons.name, to_char((trunc(sysdate) - trunc(ckout_date) - 7), '$0,000.00') as fee from books join patrons on patrons.id = books.p_id where to_number (trunc(sysdate) - trunc(books.ckout_date) - 7) > 0;
+
+select * from patron_fees;

@@ -1,0 +1,82 @@
+<html>
+<head>
+	<script src="assignment8.js"></script>
+	<script>
+	function recursionTest() {
+		var recursionDiv = document.getElementById("recursionOut");
+		var outStr = " Should output the following:<br>reversing 1,2,3,x,4,5 = 5,4,x,3,2,1<br><br>";
+		try {
+			//////////////////////////////////////////////////////////////////////
+			//  This is an example test case which will be changed by the grader!!
+			var a = [1,2,3];
+			outStr += "reversing " + a + " = " + ReverseArray(a);
+		} catch (e) {
+			outStr += "recursionTest failed with an exception: " + e;
+		}
+		recursionDiv.innerHTML = outStr;
+	}
+	
+	//////////////////////////////////////////////////////////////////////
+	//  This is an example test case which will be changed by the grader!!
+	function ManipulateTwoNumbers(num1, num2) {
+		//  The grader will insert an arbitrary function here which performs some
+		//  manipulation of two input numbers and returns a single number as output.
+		//  This is an example implementation to be used as part of your testing only.
+		return (num1*num2);
+	}
+
+	function compositionTest() {
+		var compositionDiv = document.getElementById("compositionOut");
+		var outStr = "Should output the following:<br>arrIn = 1,2,3,4,5, arrOut = 2,6,12,20,5<br><br>";
+		try {
+			//////////////////////////////////////////////////////////////////////
+			//  This is an example test case which will be changed by the grader!!
+			var arrIn = [6,7,8,9,"x",11,12,13,1,2,3,4,5,6,7,8,9,10,11,12,13];
+			var func = GetFunctionForArrayPairs(ManipulateTwoNumbers);
+			outStr += "arrIn = " + arrIn + ", arrOut = " + func(arrIn);
+		} catch (e) {
+			outStr += "compositionTest failed with an exception: " + e;
+		}
+		compositionDiv.innerHTML = outStr;
+	}
+	
+	function closureTest() {
+		var closureDiv = document.getElementById("closureOut");
+		var outStr = "Should output the following:<br>3<br>3,7<br>3,7,11<br>3,7,11<br><br>";
+		try {
+			//////////////////////////////////////////////////////////////////////
+			//  This is an example test case which will be changed by the grader!!
+			var funcs = GetAttachedFunctions();
+			outStr += funcs[0](1, 2) + "<br>";
+			funcs[1]();
+			outStr += funcs[0](3, 4) + "<br>";
+			funcs[1]();
+			outStr += funcs[0](21, 4) + "<br>";
+			outStr += funcs[0](3, 90) + "<br>";
+			funcs[1]();
+			outStr += funcs[0](5, 6) + "<br>";
+			funcs[1]();
+			outStr += funcs[0](7, 8) + "<br>";
+		} catch (e) {
+			outStr += "closureTest failed with an exception: " + e;
+		}
+		closureDiv.innerHTML = outStr;
+	}
+	</script>
+</head>
+<body>
+	<h1>Test Page for Assignment 8</h1>
+	<p>
+		Click here to test the recursive function: <button onclick="recursionTest();">Recurse!</button><br>
+		<div id="recursionOut"></div>
+	</p>
+	<p>
+		Click here to test the composite function: <button onclick="compositionTest();">Compose!</button><br>
+		<div id="compositionOut"></div>
+	</p>
+	<p>
+		Click here to test the closure functions: <button onclick="closureTest();">Close!</button><br>
+		<div id="closureOut"></div>
+	</p>
+</body>
+</html>

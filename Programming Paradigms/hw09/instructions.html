@@ -1,0 +1,62 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<style>
+		.toc {
+			margin-left: 30px;
+		}
+		.code {
+			margin-left: 30px;
+			color:#000000;
+			background-color:#ffffff;
+		}
+		.shell {
+			margin-left: 30px;
+			color:#000000;
+			background-color:#ffffff;
+		}
+	</style>
+</head>
+<body bgcolor="#d0d0b0"><br><br>
+<table align="center" cellpadding="50" border="1" bgcolor="#e0e0c0" width="720"><tbody><tr><td>
+
+<h1>Assignment 10</h1>
+
+
+<ol>
+	<li>For this assignment, you will be creating a PHP page which outputs a series of web pages which contain both HTML and JavaScript.  The series of web pages will first ask the user to fill out a form with some basic information and use a JavaScript function to validate the form data before submission, then play a guessing game by selecting a random number and having the user guess until getting it correct. (An example solution which contains all of the required functionality except for the JavaScript form validation function can be found here:  <a href="http://csce.uark.edu/~tar003/assignment10.php">http://csce.uark.edu/~tar003/assignment10.php</a>)</li><br>
+
+	<li>Create a file named assignment9.php.<br><br>
+	You can create and edit your page:
+		<ol><li>On your virtual machine for initial development and testing, and then transfer the file using FileZilla to Turing for final testing.  (FileZilla can be found under "Applications" -> "Internet" on the virtual machine after you have executed the command "sudo apt-get install filezilla", and you can use it to connect to Turing using your university login and password.)</li>
+		<li>Directly on Turing (as described <a href="http://pausch.ddns.uark.edu/?page_id=55">here</a> by using an editor such as `vi')</li>
+		<li>On your local machine using a basic text editor, and then upload it to Turing by using SFTP or SCP to connect to the server turing.csce.uark.edu with your university login and password</li>
+		<li>Remotely on Turing but on a drive that you have mapped to your local machine, as described <a href="http://pausch.ddns.uark.edu/?page_id=107">here for Windows machines</a> and <a href="http://pausch.ddns.uark.edu/?page_id=110">here for Mac machines</a></li></ol>
+		From this point, it will be assumed that you are correctly placing your file in the necessary folder on Turing and then accessing it via the appropriate URL for testing.<br><br>Note that the permissions for your file must be set so that everyone can "read" the file. For example, this can be done if you ssh to Turing, "cd" to the correct directory, and run "chmod 600 assignment9.php".</li><br>
+	
+	
+	<li>Have your PHP page initially return an HTML page which presents the user with a form that asks for their first name, last name, and email address.  The values for those input fields should be set to your own name and email address by default.  This form should use the "GET" method and should send its data back to the same page (i.e. "assignment10.php").  However, before the form data can be submitted it must be validated by a JavaScript function.  This function should only return true (allowing the form submission) if:  1. the first name is not blank, 2. the last name is not blank, 3. the email address is not blank and also contains a "@" character and a "." character.  If any of the three fields are not valid, an error message should be displayed on the page below the form and the form should not be submitted (until the form data is corrected).</li><br>
+	
+	<li>Once the user has correctly submitted the first form, the PHP page should return to them a new HTML page which includes the sentence "Hi FIRSTNAME LASTNAME!" (with the correct name values from the previous form inserted).  It should then instruct the user to guess a number from 1 to 5 and present a form with a single visible input element for their guess and a submit button.  However, before sending that page to the browser, the server should have generated a random number from 1 to 5 and included that "answer" as a hidden input field of the form.  (If you're unsure of how to use hidden input fields, just google "HTML form hidden field".)  This form should also send its data to the same page (assignment10.php), but it must use the "POST" method.</li><br>
+	
+	<li>Once the user has submitted the form with a guess, the PHP page should determine if their guess was correct (by comparing the value of the guess input field with that of the hidden answer input field).  If it was not correct, it should send the browser a page saying that the guess was incorrect and present them with the same form for another guess (including the SAME hidden answer that was initially generated before the first guess).  If the guess was correct, it should send the browser a page with no input forms but only a message saying that they guessed correctly.</li><br>
+
+	<li>Here is the rubrick I will use, so make sure your page meets each of these requirements <b>when run on Turing</b>:</p>
+		<ol>
+			<li>(5 points) Does the PHP file have the correct name?</li>
+			<li>(15 points) Does the page initially display a form asking for first name, last name, and email address, without including the form for guesses or other incorrect information?</li>
+			<li>(15 points) Is there a JavaScript form validation function which correctly prevents the form from being submitted and which displays an error message when one of the fields is blank or the email address does not contain either a "@" or "."?</li>
+			<li>(5 points) If the form data is valid, is the form submitted via the "GET" method?</li>
+			<li>(15 points) When the server receives valid data for the first form, does it correctly return a page with only the form for the user's guess (and not the original form or other incorrect data)?</li>
+			<li>(10 points) Does the form contain a hidden input field which contains the "answer", which is the number from 1 to 5 randomly selected by the server?</li>
+			<li>(5 points) When the user makes a guess and submits the guess form, is it sent via the "POST" method?</li>
+			<li>(10 points) If the user's guess is correct, is a message displayed on the resulting page telling them so, but no other forms or incorrect data is included?</li>
+			<li>(20 points) If the user's guess is incorrect, is a page returned which tells them so and which includes the form for their next guess?  The form should include the SAME answer as before the original guess.  No other forms or incorrect data should be displayed.</li>
+		</ol>
+		</li><br><br>
+
+	<li>Submit your file in the usual manner. You should submit only your "assignment10.php" file, it should not be in a compressed folder.  Your PHP page must work correctly on Turing for credit, regardless of whether or not it works on another system.</li><br><br>
+</ol>
+
+</td></tr></tbody></table>
+
+</body></html>
