@@ -29,9 +29,11 @@ Code done while obtaining my Bachelor of Science in Computer Engineering
 	- I did not go all the way through this class
 		- Due to I was taking four 4 hour classes & one 3 hour class that were required and this class was not
 		- I started this class due to I did not know if I was going to be able to get into one of the four classes
-		- I still did most of the code before I left the class that semester, only final project and some Quizzes I missed
+		- I still did most of the code before I left the class that semester
+			- Only final project and some Quizzes I missed
+			- The Final Project from what I understand was just more of the same, but the time I got back to it the computers were no longer running and I was not able to use it the next semester
 	- Code is for the Cuda cores that Nvidia has
-		- All of it will be around "Your code starts here"
+		- Almost all of it will be near "Your code starts here" or something on those lines
 - Operating Systems
 	- A Bash shell that was written in C that worked inside the schools Linux system
 	- Actually started on an Advance class portion of the code to help out some of them
