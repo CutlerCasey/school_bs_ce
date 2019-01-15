@@ -4,7 +4,8 @@ Code done while obtaining my Bachelor of Science in Computer Engineering
 
 - Computer Networks
 	- The class was more dedicated to learning about how Networks ran
-	- Code is first attempt at Python and it does not work due to White Space errors
+	- Code is my first attempt at Python and should have run the game Hangman over a network
+		- It does not work due to White Space errors
 - Cryptography
 	- This class was Masters or Higher level class for both Math and Computer Science Majors
 	- I used C++, C and Java
@@ -20,6 +21,17 @@ Code done while obtaining my Bachelor of Science in Computer Engineering
 	- Basically a class where you used select statements to query data in a DB
 	- This taught me that Normal DBs and Access are quite different
 		- Had not used Access in almost six years when taking this class
+- Embeded Systems
+	- Class looking at how to controll any system in a quick way - not through GPU
+	- Code here controlled a Remote Control Car using VHDL
+- GPU Programming
+	- Class was about learning using all the GPU for a process
+	- I did not go all the way through this class
+		- Due to I was taking four 4 hour classes & one 3 hour class that were required and this class was not
+		- I started this class due to I did not know if I was going to be able to get into one of the four classes
+		- I still did most of the code before I left the class that semester, only final project and some Quizzes I missed
+	- Code is for the Cuda cores that Nvidia has
+		- All of it will be around "Your code starts here"
 - Operating Systems
 	- A Bash shell that was written in C that worked inside the schools Linux system
 	- Actually started on an Advance class portion of the code to help out some of them
