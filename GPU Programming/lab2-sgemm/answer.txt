@@ -1,0 +1,7 @@
+1. How many times is each element of each input matrix loaded during the execution of the kernel?
+Solution: A (mxk)  x B (kxn) = C (mxn)
+For computing each element in C, one row in A will be loaded. Because there are n elements in a row in C, the same row in A will be loaded n times for computing the n elements in the corresponding row in C. Therefore, each element in matrix A is loaded n times.
+For computing each element in C, one column in B will be loaded. Because there are m elements in a column in C, the same column in B will be loaded m times for computing the m elements in the corresponding column in C. Therefore, each element in matrix B is loaded m times.
+
+2. What is the memory-access to floating-point computation ratio in each thread?
+Solution: In execution of each thread, it will have k loads from matrix A and k loads from matrix B. Therefore, the total number of memory access is 2k. The total number of floating-point operations is also 2k, i.e., k addition and k multiplication. Therefore the ratio is 1. 

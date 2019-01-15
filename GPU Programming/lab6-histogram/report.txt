@@ -1,0 +1,74 @@
+Setting up the problem...1.505322 s
+    Input size = 100000000
+    Number of bins = 4096
+Allocating device variables...0.131289 s
+Copying data from host to device...0.076429 s
+Launching kernel...0.006614 s
+Copying data from device to host...0.000025 s
+Verifying results...TEST PASSED
+
+
+Setting up the problem...2.233878 s
+    Input size = 150000000
+    Number of bins = 4096
+Allocating device variables...0.072249 s
+Copying data from host to device...0.115971 s
+Launching kernel...0.009665 s
+Copying data from device to host...0.000025 s
+Verifying results...TEST PASSED
+
+
+Setting up the problem...2.913114 s
+    Input size = 200000000
+    Number of bins = 4096
+Allocating device variables...0.076174 s
+Copying data from host to device...0.153515 s
+Launching kernel...0.012788 s
+Copying data from device to host...0.000024 s
+Verifying results...TEST PASSED
+
+
+Setting up the problem...3.593470 s
+    Input size = 250000000
+    Number of bins = 4096
+Allocating device variables...0.076715 s
+Copying data from host to device...0.197800 s
+Launching kernel...0.015903 s
+Copying data from device to host...0.000025 s
+Verifying results...TEST PASSED
+
+
+Setting up the problem...4.273062 s
+    Input size = 300000000
+    Number of bins = 4096
+Allocating device variables...0.068642 s
+Copying data from host to device...0.232054 s
+Launching kernel...0.019017 s
+Copying data from device to host...0.000025 s
+Verifying results...TEST PASSED
+
+
+Setting up the problem...4.953305 s
+    Input size = 350000000
+    Number of bins = 4096
+Allocating device variables...0.065803 s
+Copying data from host to device...0.267407 s
+Launching kernel...0.022154 s
+Copying data from device to host...0.000024 s
+Verifying results...TEST PASSED
+
+
+Setting up the problem...5.633520 s
+    Input size = 400000000
+    Number of bins = 4096
+Allocating device variables...[main.cu:61] Unable to allocate device memory
+
+
+Input_size	Kernel_time(s)	FLOPS (The number of operations for N items is N)
+
+100,000,000	0.006614	15,119,443,604
+150,000,000	0.009665	15,519,917,227
+200,000,000	0.012788	15,639,662,183
+250,000,000	0.015903	15,720,304,345
+300,000,000	0.019017	15,775,358,889
+350,000,000	0.022154	15,798,501,399

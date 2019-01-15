@@ -1,0 +1,21 @@
+Some facts regarding the GTX480 (Fermi GPU)
+1. Maximum number of threads per block: 1024
+2. Warp size: 32
+3. Maximum number of resident blocks per SM: 8
+4. Maximum number of resident warps per SM: 48
+5. Maximum number of resident threads per SM: 1536
+6. Number of 32-bit register per SM: 32K=32768
+7. Maximum amount of shared memory per SM: 48 KB = 49152 B
+
+Some facts regarding the implementation
+1. Block size: 16x16=256 threads
+2. Resource requirement of each thread
+   ptxas info    : Used 13 registers, 2104 bytes smem, 12 bytes cmem[1]
+   
+Calculation:
+   32768/13 = 2520 threads
+   49152/2104 = 23 blocks
+   Therefore resource is not a constraint regarding the thread scheculing. 
+   
+   1536/256 = 6 blocks, which is under the limit.
+   Therefore 1536*15=23040 threads can be scheduled simultaneously.

@@ -1,0 +1,6 @@
+Describe how you handled arrays not a power of two in size and all performance-enhancing optimizations you added.
+
+Answer: The provided solution can handle arrays of arbitrary size. For the size that is not the multiple of 1024, it pads it with zero at the tail.
+This implementation uses the work-efficient approach. Please refer to the document for optimization techniques used in this approach.
+
+//Note the document in question was given to us. I can not find a copy in my stuff.

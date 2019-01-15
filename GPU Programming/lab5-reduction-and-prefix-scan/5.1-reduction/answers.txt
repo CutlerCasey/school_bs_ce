@@ -1,0 +1,11 @@
+1. How many times does a single thread block synchronize to reduce its portion of the array to a single value?
+Answer: In the optimal solution (i.e., not simple solution), a single thread block synchronize 9 times, i.e., when the value of stride is 256, 128, 64, 32, 16, 8, 4, 2, 1.
+
+
+
+
+
+2. What is the minimum, maximum, and average number of "real" operations that a thread will perform? "Real" operations are those that directly contribute to the final reduction value.
+Answer: Maxium: 10 operations by thread 0.
+        Minimum: 1 operation by those threads No. 256-511.
+        Average: (512+256+128+...+4+2+1)/512=1023/512=1.998
